@@ -1,0 +1,44 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "dezog",
+            "request": "launch",
+            "name": "Internal Simulator",
+            "remoteType": "zsim",
+            "zsim": {
+                "visualMemory": true,
+                "memoryModel": "ZX48K",
+                "ulaScreen": true,
+                "zxBorderWidth": 20,
+                "vsyncInterrupt": true,
+                "zxKeyboard": true,
+                "zxBeeper": true
+            },
+            "sjasmplus": [
+                {
+                    "path": "z80-pong.sld"
+                }
+            ],
+            "history": {
+                "reverseDebugInstructionCount": 100000,
+                "spotCount": 10,
+                "codeCoverageEnabled": true
+            },
+            "startAutomatically": true,
+            "commandsAfterLaunch": [
+                "-logpoint enable",
+                "-assertion enable",
+                "-wpmem enable"
+            ],
+            "disassemblerArgs": {
+                "esxdosRst": true
+            },
+            "rootFolder": "${workspaceFolder}",
+            "topOfStack": "stack_top",
+            "load": "z80-pong.sna",
+            "smallValuesMaximum": 513,
+            "tmpDir": ".tmp"
+        }
+    ]
+}
