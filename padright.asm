@@ -1,19 +1,46 @@
-; pad right variables
-PADRIGHTY:       defw 15
-PADRIGHTX:       defw 29
+; pad left variables
+PADRIGHTY:       defw 50
+PADRIGHTX:       defw 230
 
-print_padright:
-    ld iy,(PADRIGHTY)
-    ld ix,(PADRIGHTX)
-    ld a,GREEN
-    call print_pad
+; pad constants
+PADRIGHT_UPPERLIMIT:   equ 5
+PADRIGHT_LOWERLIMIT:   equ 166
+PADRIGHT_HEIGHT:       equ 3
+
+padright_print:
+    call fetch_padright_coords
+    call block_print
+    ld a,b
+    add 8
+    ld b,a
+    call block_print
+    ld a,b
+    add 8
+    ld b,a
+    call block_print
     ret
 
-erase_padright:
-    ld iy,(PADRIGHTY)
-    ld ix,(PADRIGHTX)
-    ld a,BLUE
-    call print_pad
+padright_erase:
+    call fetch_padright_coords
+    call block_erase
+    ld a,b
+    add 8
+    ld b,a
+    call block_erase
+    ld a,b
+    add 8
+    ld b,a
+    call block_erase
+    ret
+
+; returns padright coords
+; c - x coord
+; d - y coord
+fetch_padright_coords:
+    ld a,(PADRIGHTX)
+    ld c,a
+    ld a,(PADRIGHTY)
+    ld b,a
     ret
 
 check_move_padright_up:
@@ -21,12 +48,20 @@ check_move_padright_up:
     in a,(c)
     and %00000001
     ret nz
-    ld bc,(PADRIGHTY)
-    ld a,c
-    cp PAD_UPPERLIMIT
-    ret z
-    dec bc
-    ld (PADRIGHTY), bc
+
+    ld a,(PADRIGHTY)
+    cp PADRIGHT_UPPERLIMIT
+    ret c
+
+    call padright_erase
+    ld a,(PADRIGHTY)
+    dec a
+    dec a
+    ;dec a
+    ;dec a
+    ld (PADRIGHTY), a
+    call padright_print
+
     ret
 
 check_move_padright_down:
@@ -34,42 +69,18 @@ check_move_padright_down:
     in a,(c)
     and %00000010
     ret nz
-    ld bc,(PADRIGHTY)
-    ld a,c
-    cp PAD_LOWERLIMIT
-    ret z
-    inc bc
-    ld (PADRIGHTY), bc
-    ret
-
-padright_check:
-    ; is ball heading in the right direction?
-    ;ld bc,(VELX)
-    ;ld a,c
-    ;sub 1
-    ;ret z
-    ; is ball x coord at the paddle?
-    ld bc,(BALLX)
-    ld de,(PADRIGHTX)
-    dec de
-    ld a,e
-    sub c
-    ret nz
-    ; is the ball y coord at or beyond the tip of the paddle?
-    ld bc,(BALLY)
-    ld de,(PADRIGHTY)
-    ld a,c
-    sub e
-    ret c
-    ; is the ball y coord beyond the end of the paddle?
-    ld bc,(BALLY)
-    ld de,(PADRIGHTY)
-    ld a,c
-    sub e
-    sub 3
+    
+    ld a,(PADRIGHTY)
+    cp PADRIGHT_LOWERLIMIT
     ret nc
-    ; otherwise, bounce
-padright_bounce:
-    ld bc,0
-    ld (VELX), bc
+
+    call padright_erase
+    ld a,(PADRIGHTY)
+    inc a
+    inc a
+    ;inc a
+    ;inc a
+    ld (PADRIGHTY), a
+    call padright_print
+
     ret

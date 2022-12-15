@@ -9,39 +9,38 @@ screen_top: defb    0
     include "ball.asm"
     include "padleft.asm"
     include "padright.asm"
+    include "block.asm"
 
  defs 0x8000 - $
  ORG $8000
 
 main:
+    di
     ld sp,stack_top
-    call clear_background
+    ld a,%00000100
+    call fill_attributes
+    ld a,0
+    call fill_bitmap
 
+    call padleft_print
 main_loop:
-    call print_ball
-    call print_padleft
-    call print_padright
+    call ball_erase_old
+    call ball_print
+    call padleft_print
+    call padright_print
 
-    call short_pause
+    call pause_short
 
-    call erase_padleft
-    call erase_padright
-    call erase_ball
-    call move_ball
+    call ball_move
+    call ball_bounce_walls
+    call ball_bounce_padleft
+    call ball_bounce_padright
 
-    call south_wall_check
-    call north_wall_check
-    call east_wall_check
-    call west_wall_check
-
-    call check_move_padleft_down
     call check_move_padleft_up
+    call check_move_padleft_down
 
-    call check_move_padright_down
     call check_move_padright_up
-
-    call padright_check
-    call padleft_check
+    call check_move_padright_down
 
     jr main_loop
 
