@@ -1,14 +1,14 @@
-BALLX:   defw 180
-BALLY:   defw 50
+BALLX:   defw 150
+BALLY:   defw 30
 
-OLDBALLX:   defw 180
-OLDBALLY:   defw 50
+OLDBALLX:   defw 150
+OLDBALLY:   defw 30
 
 
 BALLVX:           defw 1
 BALLVX_ITERATOR     defw 1
 BALLVX_MAX          defw 1
-BALLVY:           defw 1
+BALLVY:           defw -1
 BALLVY_ITERATOR:    defw 1
 BALLVY_MAX:        defw 4
 
@@ -138,6 +138,9 @@ ball_bounce_padleft:
     ret nz ; ballx is not aligned to the paddle
     ld a,(PADLEFTY)
     sub 8 ; bit of flex
+    jr nc,padleft_not_at_top
+    ld a,0
+padleft_not_at_top:
     ld b,a
     ld a,(BALLY)
     sub b
@@ -228,7 +231,7 @@ range_0_4:
     nop
     ld a,1
     ld (BALLVY_MAX), a
-    ld a,2
+    ld a,3
     ld (BALLVX_MAX), a
     ld a,1
     ld (BALLVY), a
@@ -289,7 +292,7 @@ range_28_32:
     nop
     ld a,1
     ld (BALLVY_MAX), a
-    ld a,2
+    ld a,3
     ld (BALLVX_MAX), a
     ld a,-1
     ld (BALLVY), a
@@ -297,9 +300,9 @@ range_28_32:
 
 
 ball_bounce_padright:
-    ;ld a,(BALLVX)
-    ;or a
-    ;ret ns ; ball is not travelling right
+    ld a,(BALLVX)
+    or a
+    ret s ; ball is not travelling right
     ld a,(PADRIGHTX)
     sub 8
     ld b,a
@@ -308,6 +311,9 @@ ball_bounce_padright:
     ret nz ; ballx is not aligned to the paddle
     ld a,(PADRIGHTY)
     sub 8 ; bit of flex
+    jr nc,padright_not_at_top
+    ld a,0
+padright_not_at_top:
     ld b,a
     ld a,(BALLY)
     sub b
@@ -332,5 +338,11 @@ ball_bounce_padright_inrange2:
     ld a,(BALLX)
     dec a
     ld (BALLX), a
+
+    ld a,(PADRIGHTY)
+    sub 8
+    ld b,a
+    ld a,(BALLY)
+    sub b
     call bounce_by_4_segments
     ret
