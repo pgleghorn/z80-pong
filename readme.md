@@ -4,11 +4,10 @@ This is a tiny pong-like game for the zx spectrum written in z80 assembly langua
 
 Controls are:
 
-Left paddle up - Q
-Left paddle down - A
-
-Right paddle up - P
-Right paddle down L
+* Left paddle up - Q
+* Left paddle down - A
+* Right paddle up - P
+* Right paddle down - L
 
 I wrote this as a trip down memory lane, having spent a lot of time as a kid trying to understand z80 machine code.  I had a zx spectrum but no assembler and no other machines to cross-compile from, indeed cross-compiling seemed like magic.  My efforts at the time were all hand-constructed hex dumps using lists of opcodes and the z80 rom disassembly book, not a very easy way to get stuff done.
 
