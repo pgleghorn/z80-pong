@@ -1,6 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [
+
         {
             "type": "dezog",
             "request": "launch",
@@ -39,6 +40,14 @@
             "load": "z80-pong.sna",
             "smallValuesMaximum": 513,
             "tmpDir": ".tmp"
-        }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "launch zesarux",
+            "skipFiles": [ "<node_internals>/**"],
+            "preLaunchTask": "zesarux",
+            "program": "${workspaceFolder}/test.js"
+          }
     ]
 }
