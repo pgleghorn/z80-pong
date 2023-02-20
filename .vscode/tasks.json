@@ -31,15 +31,16 @@
         },
         {
             "label": "zesarux",
-            "command": "/Applications/zesarux.app/Contents/MacOS/zesarux", // Could be any other shell command
-            "args": [
-                "--snap",
-                "/Users/8409107/git/z80-pong/z80-pong.sna",
-                "--machine",
-                "48k",
-                "--nosplash",
-                "--nowelcomemessage"
-            ],
+            "command": "./run.sh",
+            //"command": "/Applications/zesarux.app/Contents/MacOS/zesarux", // Could be any other shell command
+            //"args": [
+            //    "--snap",
+            //    "/Users/8409107/git/z80-pong/z80-pong.sna",
+            //    "--machine",
+            //    "48k",
+            //    "--nosplash",
+            //    "--nowelcomemessage"
+            //],
             "type": "shell",
         }          
     ]
